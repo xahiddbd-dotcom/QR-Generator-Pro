@@ -1,0 +1,8 @@
+{
+  "name": "QR Generator Pro",
+  "description": "A modern QR code scanner and generator with integrated Gemini AI for data analysis and verification, specifically designed for the BD market.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
