@@ -69,13 +69,8 @@ export const DONATION_INFO = {
     en: "A small contribution from you helps us manage server costs and develop new features." 
   },
   METHODS: [
-    { name: "bKash/Nagad", detail: "017XXXXXXXX", icon: "fa-solid fa-mobile-screen" },
-    { name: "bKash/Nagad", detail: "017XXXXXXXX",<a href="tel:+15551234567" class="secret-phone">1-555-XX-XXXX</a> icon: "fa-solid fa-mobile-screen" },
-    
-    
-
-
-    
+    { name: "bKash", detail: "01517992585", icon: "fa-solid fa-mobile-screen" },
+    { name: "Nagad", detail: "01517992585", icon: "fa-solid fa-mobile-screen" },
     { name: "Buy Me a Coffee", detail: "buymeacoffee.com/yourname", icon: "fa-solid fa-mug-hot" }
   ]
 };
