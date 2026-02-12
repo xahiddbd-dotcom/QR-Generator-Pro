@@ -50,9 +50,9 @@ export const APK_INSTALL_INFO = {
 };
 
 export const SOCIAL_LINKS = [
-  { platform: "github", icon: "fa-brands fa-github", url: "https://github.com", color: "text-white" },
+  { platform: "github", icon: "fa-brands fa-github", url: "https://github.com/xahiddbd-dotcom", color: "text-white" },
   { platform: "linkedin", icon: "fa-brands fa-linkedin", url: "https://linkedin.com", color: "text-blue-400" },
-  { platform: "web", icon: "fa-solid fa-globe", url: "https://portfolio.com", color: "text-green-400" }
+  { platform: "web", icon: "fa-solid fa-globe", url: "https://imafk007.vercel.app", color: "text-green-400" }
 ];
 
 export const PREDEFINED_LOGOS = [
@@ -70,6 +70,12 @@ export const DONATION_INFO = {
   },
   METHODS: [
     { name: "bKash/Nagad", detail: "017XXXXXXXX", icon: "fa-solid fa-mobile-screen" },
+    { name: "bKash/Nagad", detail: "017XXXXXXXX",<a href="tel:+15551234567" class="secret-phone">1-555-XX-XXXX</a> icon: "fa-solid fa-mobile-screen" },
+    
+    
+
+
+    
     { name: "Buy Me a Coffee", detail: "buymeacoffee.com/yourname", icon: "fa-solid fa-mug-hot" }
   ]
 };
