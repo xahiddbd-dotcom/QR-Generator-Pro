@@ -49,6 +49,14 @@ const ScanTab: React.FC<ScanTabProps> = ({ onScanComplete, language }) => {
     }
   };
 
+  const stopCamera = () => {
+    if (videoRef.current?.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+    }
+    setIsScanning(false);
+  };
+
   const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -89,51 +97,62 @@ const ScanTab: React.FC<ScanTabProps> = ({ onScanComplete, language }) => {
     context?.drawImage(videoRef.current, 0, 0);
     
     const base64 = canvasRef.current.toDataURL('image/jpeg').split(',')[1];
+    stopCamera();
+    
     const res = await performVisualAnalysis(base64, language);
     if (res) setLensResult(res);
     setIsAnalyzing(false);
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-700">
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-[3rem] shadow-xl border border-slate-100 dark:border-slate-800 transition-colors">
-        <h2 className="text-lg font-black mb-4 flex items-center gap-2 text-slate-800 dark:text-white uppercase tracking-tighter">
-          <i className="fa-solid fa-camera-retro text-blue-600"></i> {t.title}
+    <div className="space-y-6">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-[3rem] shadow-xl border border-slate-100 dark:border-slate-800 transition-all duration-500 overflow-hidden">
+        <h2 className="text-lg font-black mb-5 flex items-center gap-3 text-slate-800 dark:text-white uppercase tracking-tighter">
+          <div className="w-10 h-10 rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-600">
+            <i className="fa-solid fa-camera-retro"></i>
+          </div>
+          {t.title}
         </h2>
 
-        <div className="relative w-full aspect-square bg-slate-900 rounded-[2.5rem] overflow-hidden border-4 border-slate-50 dark:border-slate-800">
+        <div className="relative w-full aspect-square bg-slate-950 rounded-[2.5rem] overflow-hidden border-4 border-slate-50 dark:border-slate-800 transition-all duration-700">
           {isScanning ? (
-            <>
+            <div className="animate-in fade-in duration-500 h-full">
               <video ref={videoRef} className="w-full h-full object-cover" playsInline />
               <canvas ref={canvasRef} className="hidden" />
               <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <div className="w-64 h-64 border-2 border-white/20 rounded-3xl relative">
+                <div className="w-72 h-72 border-2 border-white/10 rounded-[2.5rem] relative animate-pulse-glow">
                   <div className="scan-line"></div>
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-blue-500 rounded-tl-xl shadow-lg"></div>
-                  <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-blue-500 rounded-tr-xl shadow-lg"></div>
-                  <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-blue-500 rounded-bl-xl shadow-lg"></div>
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-blue-500 rounded-br-xl shadow-lg"></div>
+                  <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-blue-500 rounded-tl-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                  <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-blue-500 rounded-tr-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                  <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-blue-500 rounded-bl-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                  <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-blue-500 rounded-br-[1.5rem] shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
                 </div>
               </div>
-              <button 
-                onClick={captureAndAnalyze}
-                className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md border border-white/40 text-white px-6 py-3 rounded-full flex items-center gap-2 font-bold active:scale-95 transition-all"
-              >
-                <i className="fa-solid fa-bullseye text-blue-400"></i> {t.lensBtn}
-              </button>
-            </>
+              <div className="absolute bottom-8 left-0 right-0 flex justify-center px-6">
+                <button 
+                  onClick={captureAndAnalyze}
+                  className="bg-white/10 backdrop-blur-xl border border-white/20 text-white px-8 py-4 rounded-full flex items-center gap-3 font-black uppercase tracking-widest text-[10px] active:scale-95 transition-all shadow-2xl"
+                >
+                  <i className="fa-solid fa-wand-magic-sparkles text-blue-400"></i> {t.lensBtn}
+                </button>
+              </div>
+            </div>
           ) : previewImage ? (
-            <img src={previewImage} alt="Preview" className="w-full h-full object-contain bg-slate-800 p-4" />
+            <div className="h-full animate-in zoom-in-95 duration-500">
+              <img src={previewImage} alt="Preview" className="w-full h-full object-contain bg-slate-900" />
+            </div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center px-8 gap-4">
-               <i className="fa-solid fa-images text-5xl mb-2 opacity-10"></i>
-               <div className="flex flex-col gap-3 w-full max-w-[240px]">
-                 <button onClick={startCamera} className="w-full bg-blue-600 text-white px-6 py-4 rounded-2xl font-bold shadow-lg active:scale-95 flex items-center justify-center gap-2 transition-transform">
+            <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center px-10 gap-6">
+               <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center animate-float">
+                 <i className="fa-solid fa-qrcode text-4xl opacity-20"></i>
+               </div>
+               <div className="flex flex-col gap-3 w-full max-w-[260px]">
+                 <button onClick={startCamera} className="w-full bg-blue-600 text-white px-6 py-5 rounded-3xl font-black uppercase tracking-widest text-[11px] shadow-xl shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-3 transition-all">
                    <i className="fa-solid fa-camera"></i> {t.btnCamera}
                  </button>
                  <button 
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-6 py-4 rounded-2xl font-bold border border-slate-200 dark:border-slate-700 active:scale-95 flex items-center justify-center gap-2 transition-transform"
+                  className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-6 py-5 rounded-3xl font-black uppercase tracking-widest text-[11px] border border-slate-200 dark:border-slate-700 active:scale-95 flex items-center justify-center gap-3 transition-all"
                  >
                    <i className="fa-solid fa-image"></i> {t.btnGallery}
                  </button>
@@ -149,57 +168,62 @@ const ScanTab: React.FC<ScanTabProps> = ({ onScanComplete, language }) => {
           )}
 
           {isAnalyzing && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center text-white z-50">
-               <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-               <p className="text-sm font-bold animate-pulse">AI is Reading Image...</p>
+            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center text-white z-50 animate-in fade-in duration-300">
+               <div className="w-14 h-14 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+               <p className="text-xs font-black uppercase tracking-[0.2em] animate-pulse">AI Analysis in Progress</p>
             </div>
           )}
         </div>
       </div>
 
       {(analysis || lensResult) && (
-        <div className="bg-gradient-to-br from-slate-900 to-blue-900 p-8 rounded-[3rem] shadow-2xl text-white animate-in slide-in-from-bottom-8 duration-500">
-           <h3 className="text-xl font-black mb-4 flex items-center gap-2">
-             <i className="fa-solid fa-wand-magic-sparkles text-blue-400"></i> 
+        <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 p-8 rounded-[3rem] shadow-2xl text-white animate-in slide-in-from-bottom-10 duration-700 delay-200 fill-mode-both relative overflow-hidden">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] rounded-full"></div>
+           
+           <h3 className="text-xl font-black mb-6 flex items-center gap-3 relative z-10">
+             <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-blue-400">
+               <i className="fa-solid fa-wand-magic-sparkles"></i>
+             </div>
              {lensResult ? t.lensTitle : t.aiTitle}
            </h3>
            
            {lensResult ? (
-             <div className="space-y-4">
-                <p className="text-sm leading-relaxed opacity-90">{lensResult.description}</p>
+             <div className="space-y-5 relative z-10">
+                <p className="text-sm leading-relaxed opacity-80 font-medium">{lensResult.description}</p>
                 <div className="flex flex-wrap gap-2">
                    {lensResult.objects.map((obj, i) => (
-                     <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold border border-white/10">{obj}</span>
+                     <span key={i} className="px-4 py-1.5 bg-white/5 hover:bg-white/10 transition-colors rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/10">{obj}</span>
                    ))}
                 </div>
                 {lensResult.ocrText && (
-                  <div className="bg-black/20 p-4 rounded-2xl border border-white/5">
-                    <p className="text-[10px] uppercase opacity-50 mb-1 font-bold">Extracted Text</p>
-                    <p className="text-xs font-mono">{lensResult.ocrText}</p>
+                  <div className="bg-black/40 p-5 rounded-3xl border border-white/10 shadow-inner">
+                    <p className="text-[9px] uppercase opacity-40 mb-2 font-black tracking-widest">Extracted Text</p>
+                    <p className="text-xs font-mono leading-relaxed text-blue-200">{lensResult.ocrText}</p>
                   </div>
                 )}
              </div>
            ) : (
-             <div className="space-y-4">
+             <div className="space-y-5 relative z-10">
                {scannedResult && (
-                 <div className="bg-white/10 p-4 rounded-2xl mb-2">
-                    <p className="text-[10px] uppercase font-bold opacity-60 mb-1">{t.decodedInfo}</p>
-                    <p className="text-sm font-mono break-all">{scannedResult}</p>
+                 <div className="bg-white/5 p-5 rounded-3xl mb-2 border border-white/5">
+                    <p className="text-[9px] uppercase font-black tracking-widest opacity-40 mb-2">{t.decodedInfo}</p>
+                    <p className="text-sm font-mono break-all text-blue-200">{scannedResult}</p>
                  </div>
                )}
-               <div className="flex items-center gap-2 mb-2">
-                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${analysis?.isSafe ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                    {analysis?.isSafe ? 'Safe' : 'Unsafe/Suspicious'}
+               <div className="flex items-center gap-3 mb-2">
+                 <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${analysis?.isSafe ? 'bg-green-500/20 text-green-400 border border-green-500/20' : 'bg-red-500/20 text-red-400 border border-red-500/20'}`}>
+                    {analysis?.isSafe ? 'Verified Safe' : 'Risk Detected'}
                  </span>
-                 <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-[10px] font-black uppercase">
+                 <span className="px-4 py-1.5 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/20 text-[10px] font-black uppercase tracking-widest">
                     {analysis?.category}
                  </span>
                </div>
-               <p className="text-sm leading-relaxed opacity-90">{analysis?.summary}</p>
-               <div className="grid grid-cols-2 gap-2 mt-4">
+               <p className="text-sm leading-relaxed opacity-80 font-medium">{analysis?.summary}</p>
+               <div className="grid grid-cols-1 gap-2 mt-6">
                  {analysis?.suggestions.map((s, i) => (
-                   <div key={i} className="p-3 bg-white/5 rounded-xl text-[10px] border border-white/10 flex items-start gap-2">
-                      <i className="fa-solid fa-circle-check text-blue-400 mt-0.5"></i> {s}
+                   <div key={i} className="p-4 bg-white/5 rounded-2xl text-[11px] border border-white/5 flex items-start gap-3 hover:bg-white/10 transition-all cursor-default">
+                      <i className="fa-solid fa-circle-check text-blue-400 mt-0.5"></i> 
+                      <span className="font-medium">{s}</span>
                    </div>
                  ))}
                </div>
@@ -208,7 +232,7 @@ const ScanTab: React.FC<ScanTabProps> = ({ onScanComplete, language }) => {
 
            <button 
              onClick={() => { setAnalysis(null); setLensResult(null); setPreviewImage(null); }}
-             className="w-full bg-white text-slate-900 py-4 rounded-2xl font-black mt-8 shadow-xl active:scale-95 transition-all text-sm"
+             className="w-full bg-white text-slate-900 py-5 rounded-3xl font-black uppercase tracking-widest mt-8 shadow-2xl active:scale-95 transition-all text-xs"
            >
              {t.reset}
            </button>

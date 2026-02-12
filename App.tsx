@@ -62,7 +62,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pb-24 flex flex-col transition-colors duration-300 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen pb-24 flex flex-col transition-colors duration-500 bg-slate-50 dark:bg-slate-950">
       <Header 
         language={language} 
         setLanguage={setLanguage} 
@@ -70,10 +70,17 @@ const App: React.FC = () => {
         toggleTheme={toggleTheme} 
       />
       
-      <main className="p-4 max-w-md mx-auto w-full flex-1">
-        {renderContent()}
-        {/* Promotional Fake Ad Section */}
-        {activeTab !== AppTab.AI && <PromotionalAd language={language} />}
+      <main className="p-4 max-w-md mx-auto w-full flex-1 relative">
+        <div key={activeTab} className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
+          {renderContent()}
+        </div>
+        
+        {/* Promotional Fake Ad Section with conditional rendering and unique animation */}
+        {activeTab !== AppTab.AI && (
+          <div className="animate-in fade-in slide-in-from-bottom-8 delay-300 duration-700">
+            <PromotionalAd language={language} />
+          </div>
+        )}
       </main>
 
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} language={language} />

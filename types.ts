@@ -10,7 +10,7 @@ export enum AppTab {
 export type Language = 'bn' | 'en';
 export type Theme = 'light' | 'dark';
 
-export type QRType = 'text' | 'url' | 'vcard' | 'wifi' | 'email' | 'sms' | 'twitter' | 'facebook' | 'bitcoin' | 'file' | 'app';
+export type QRType = 'text' | 'url' | 'vcard' | 'wifi' | 'email' | 'sms' | 'twitter' | 'facebook' | 'bitcoin' | 'file' | 'app' | 'barcode' | 'pdf' | 'mp3';
 
 export interface QRHistoryItem {
   id: string;

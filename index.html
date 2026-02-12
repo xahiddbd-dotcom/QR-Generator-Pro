@@ -13,9 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         .glass-effect { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
-        .nav-active { color: #2563eb; border-top: 3px solid #2563eb; }
         
         @keyframes scan {
             0% { top: 0; opacity: 0; }
@@ -24,6 +23,37 @@
             100% { top: 100%; opacity: 0; }
         }
         
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .animate-shimmer {
+            background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
         .scan-line {
             position: absolute;
             width: 100%;
@@ -34,12 +64,13 @@
             z-index: 10;
         }
 
-        .scan-container {
-            mask-image: radial-gradient(circle, black 50%, transparent 100%);
-        }
-
         /* Prevent pull-to-refresh on mobile */
         html, body { overscroll-behavior-y: contain; }
+
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 <script type="importmap">
 {
@@ -53,15 +84,8 @@
 }
 </script>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 transition-colors duration-500">
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
-        });
-      }
-    </script>
 </body>
 </html>
