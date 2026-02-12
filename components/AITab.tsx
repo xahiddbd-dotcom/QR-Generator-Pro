@@ -56,27 +56,27 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
 
   return (
     <div className="flex flex-col h-[calc(100vh-180px)]">
-      <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-6 rounded-t-3xl text-white shadow-lg">
+      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-t-[2.5rem] text-white shadow-lg">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-lg font-bold flex items-center gap-2">
+            <h2 className="text-lg font-black flex items-center gap-2 uppercase tracking-tight">
               <i className="fa-solid fa-robot animate-bounce-slow"></i> {t.title}
             </h2>
-            <p className="text-xs opacity-80 mt-1">{t.subtitle}</p>
+            <p className="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-widest">{t.subtitle}</p>
           </div>
-          <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+          <div className="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
              <i className="fa-solid fa-wand-magic-sparkles text-blue-200"></i>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white dark:bg-slate-900 border-x border-gray-100 dark:border-slate-800 transition-colors no-scrollbar">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white dark:bg-slate-900 border-x border-slate-100 dark:border-slate-800 transition-colors no-scrollbar">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center py-6 px-4 text-center">
-            <div className="w-16 h-16 bg-blue-50 dark:bg-slate-800 rounded-3xl flex items-center justify-center mb-4 shadow-inner">
+            <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] flex items-center justify-center mb-6 shadow-inner border border-slate-100 dark:border-slate-700">
               <i className="fa-solid fa-comments text-blue-500 text-2xl"></i>
             </div>
-            <p className="text-gray-500 dark:text-slate-400 text-sm font-medium mb-6 leading-relaxed max-w-[240px]">
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-8 leading-relaxed max-w-[240px]">
               {initialContext ? t.emptyHintWithCtx : t.emptyHintNoCtx}
             </p>
             
@@ -89,7 +89,7 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
                   <button
                     key={i}
                     onClick={() => handleSend(s)}
-                    className="text-[11px] bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-all active:scale-95 text-left flex items-center gap-3 group"
+                    className="text-[11px] bg-slate-50 dark:bg-slate-800/30 text-slate-700 dark:text-slate-300 px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-all active:scale-95 text-left flex items-center gap-3 group"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400 group-hover:scale-150 transition-transform"></span>
                     {s}
@@ -102,10 +102,10 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
 
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] p-4 rounded-2xl text-sm shadow-sm ${
+            <div className={`max-w-[85%] p-4 rounded-2xl text-sm shadow-sm font-medium ${
               msg.role === 'user' 
                 ? 'bg-blue-600 text-white rounded-tr-none' 
-                : 'bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-slate-200 rounded-tl-none border border-gray-200 dark:border-slate-700 leading-relaxed'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-none border border-slate-200 dark:border-slate-700 leading-relaxed'
             }`}>
               {msg.text}
             </div>
@@ -113,16 +113,16 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
         ))}
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none flex gap-1 border border-gray-200 dark:border-slate-700">
-              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
-              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-100"></span>
-              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-200"></span>
+            <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none flex gap-1.5 border border-slate-200 dark:border-slate-700">
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce"></span>
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-100"></span>
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-200"></span>
             </div>
           </div>
         )}
       </div>
 
-      <div className="p-4 bg-gray-50 dark:bg-slate-950 rounded-b-3xl border border-gray-100 dark:border-slate-800 border-t-0 transition-colors">
+      <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-b-[2.5rem] border border-slate-100 dark:border-slate-800 border-t-0 transition-colors">
         <div className="relative group">
           <input
             type="text"
@@ -130,7 +130,7 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder={t.placeholder}
-            className="w-full p-4 pr-14 rounded-2xl bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 outline-none border border-gray-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-500 shadow-sm transition-all focus:ring-2 ring-blue-500/10"
+            className="w-full p-4 pr-14 rounded-2xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 outline-none border border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-500 shadow-sm transition-all focus:ring-2 ring-blue-500/10 placeholder:text-slate-400 dark:placeholder:text-slate-600"
           />
           <button 
             onClick={() => handleSend()}
@@ -144,7 +144,6 @@ const AITab: React.FC<AITabProps> = ({ initialContext, language }) => {
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .animate-bounce-slow { animation: bounce 3s infinite; }
       `}</style>
     </div>
   );

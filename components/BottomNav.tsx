@@ -38,21 +38,23 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab, language
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-gray-200 dark:border-slate-800 px-4 py-3 flex justify-between items-center z-50 transition-colors">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 py-3 pb-6 flex justify-between items-center z-50 transition-colors">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
-          className={`flex flex-col items-center gap-1 transition-all duration-200 relative ${
-            activeTab === tab.id ? 'text-blue-600' : 'text-gray-400 dark:text-slate-500'
+          className={`flex flex-col items-center gap-1.5 transition-all duration-300 relative ${
+            activeTab === tab.id 
+              ? 'text-blue-600 dark:text-blue-400' 
+              : 'text-slate-400 dark:text-slate-500'
           }`}
         >
           <div className={`${activeTab === tab.id ? 'scale-110' : 'scale-100'} transition-transform`}>
             <i className={`fa-solid ${tab.icon} text-xl`}></i>
           </div>
-          <span className="text-[9px] font-bold uppercase tracking-tighter">{tab.label}</span>
+          <span className="text-[9px] font-black uppercase tracking-tighter">{tab.label}</span>
           {activeTab === tab.id && (
-            <div className="absolute -top-[12px] left-1/2 -translate-x-1/2 w-6 h-1 bg-blue-600 rounded-full"></div>
+            <div className="absolute -top-[12px] left-1/2 -translate-x-1/2 w-6 h-1 bg-blue-600 dark:bg-blue-500 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
           )}
         </button>
       ))}

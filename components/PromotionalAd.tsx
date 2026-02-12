@@ -44,15 +44,15 @@ const PromotionalAd: React.FC<PromotionalAdProps> = ({ language }) => {
     <div className="mt-8 mb-4 px-2">
       <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-4 shadow-sm relative overflow-hidden flex items-center gap-4 group transition-all hover:shadow-lg">
         {/* Shimmer overlay */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent w-full h-full skew-x-[-20deg] animate-shimmer opacity-30"></div>
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-blue-500/5 to-transparent w-full h-full skew-x-[-20deg] animate-shimmer opacity-30"></div>
         
         <div className="absolute top-2.5 right-5">
-          <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200/50 dark:border-slate-700/50">
+          <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-200/50 dark:border-slate-700/50">
             {ad.tag}
           </span>
         </div>
         
-        <div className={`w-14 h-14 rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-600 shrink-0 transition-all duration-500 ${isTransitioning ? 'scale-50 opacity-0' : 'scale-100 opacity-100'}`}>
+        <div className={`w-14 h-14 rounded-2xl bg-blue-600/10 dark:bg-blue-600/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 transition-all duration-500 ${isTransitioning ? 'scale-50 opacity-0' : 'scale-100 opacity-100'}`}>
           <i className={`fa-solid ${ad.icon} text-2xl animate-float`}></i>
         </div>
 
