@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AppTab, Language, Theme } from './types';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
@@ -84,6 +85,7 @@ const App: React.FC = () => {
       </main>
 
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} language={language} />
+      <SpeedInsights />
     </div>
   );
 };
