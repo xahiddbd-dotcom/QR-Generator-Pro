@@ -8,6 +8,7 @@ import CreateTab from './components/CreateTab';
 import AITab from './components/AITab';
 import HistoryTab from './components/HistoryTab';
 import AboutTab from './components/AboutTab';
+import PromotionalAd from './components/PromotionalAd';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>(AppTab.SCAN);
@@ -71,6 +72,8 @@ const App: React.FC = () => {
       
       <main className="p-4 max-w-md mx-auto w-full flex-1">
         {renderContent()}
+        {/* Promotional Fake Ad Section */}
+        {activeTab !== AppTab.AI && <PromotionalAd language={language} />}
       </main>
 
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} language={language} />
