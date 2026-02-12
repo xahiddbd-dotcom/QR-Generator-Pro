@@ -4,31 +4,24 @@ import { Language } from '../types';
 
 interface PromotionalAdProps {
   language: Language;
+  ads: {
+    title: { bn: string; en: string };
+    desc: { bn: string; en: string };
+    icon: string;
+    btn: { bn: string; en: string };
+  }[];
 }
 
-const PromotionalAd: React.FC<PromotionalAdProps> = ({ language }) => {
+const PromotionalAd: React.FC<PromotionalAdProps> = ({ language, ads }) => {
   const [currentAd, setCurrentAd] = useState(0);
 
-  const ads = [
-    {
-      title: language === 'bn' ? 'প্রিমিয়াম কিউআর কোড জেনারেটর' : 'Premium QR Generator',
-      desc: language === 'bn' ? 'আপনার ব্র্যান্ডের লোগো যুক্ত করুন একদম ফ্রি!' : 'Add your brand logo for free!',
-      icon: 'fa-gem',
-      btn: language === 'bn' ? 'ট্রাই করুন' : 'Try Now'
-    },
-    {
-      title: language === 'bn' ? 'নিরাপদ লেনদেনের নিশ্চয়তা' : 'Secure Transactions',
-      desc: language === 'bn' ? 'এআই লেন্স দিয়ে যেকোনো কিউআর যাচাই করুন।' : 'Verify any QR with AI Lens.',
-      icon: 'fa-shield-halved',
-      btn: language === 'bn' ? 'শিখুন' : 'Learn More'
-    }
-  ];
-
   useEffect(() => {
+    if (!ads || ads.length === 0) return;
     const timer = setInterval(() => setCurrentAd(a => (a + 1) % ads.length), 8000);
     return () => clearInterval(timer);
-  }, []);
+  }, [ads]);
 
+  if (!ads || ads.length === 0) return null;
   const ad = ads[currentAd];
 
   return (
@@ -41,12 +34,12 @@ const PromotionalAd: React.FC<PromotionalAdProps> = ({ language }) => {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="text-[10px] font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight truncate">{ad.title}</h4>
-          <p className="text-[9px] text-slate-500 dark:text-slate-400 leading-tight line-clamp-1 font-medium mt-0.5">{ad.desc}</p>
+          <h4 className="text-[10px] font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight truncate">{ad.title[language]}</h4>
+          <p className="text-[9px] text-slate-500 dark:text-slate-400 leading-tight line-clamp-1 font-medium mt-0.5">{ad.desc[language]}</p>
         </div>
 
         <button className="bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2.5 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-500/20">
-          {ad.btn}
+          {ad.btn[language]}
         </button>
       </div>
     </div>

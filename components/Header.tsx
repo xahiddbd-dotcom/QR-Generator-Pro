@@ -8,9 +8,10 @@ interface HeaderProps {
   setLanguage: (lang: Language) => void;
   theme: Theme;
   toggleTheme: () => void;
+  onAdminLogin: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ language, setLanguage, theme, toggleTheme }) => {
+const Header: React.FC<HeaderProps> = ({ language, setLanguage, theme, toggleTheme, onAdminLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -19,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, theme, toggleThe
     shareMsg: language === 'bn' ? 'QR Generator BD - সেরা কিউআর এবং এআই টুলস! এখনই ব্যবহার করে দেখুন:' : 'QR Generator BD - The best QR & AI tool! Try it now:',
     rate: language === 'bn' ? 'রেটিং দিন' : 'Rate Us',
     privacy: language === 'bn' ? 'প্রাইভেসি পলিসি' : 'Privacy Policy',
+    admin: language === 'bn' ? 'অ্যাডমিন লগইন' : 'Admin Login',
     copied: language === 'bn' ? 'লিঙ্ক কপি হয়েছে!' : 'Link Copied!',
   };
 
@@ -78,7 +80,6 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, theme, toggleThe
         <button 
           onClick={toggleTheme}
           className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-90 border border-slate-200/50 dark:border-slate-700/50"
-          aria-label="Toggle Dark Mode"
         >
           <i className={`fa-solid ${theme === 'light' ? 'fa-moon' : 'fa-sun'} text-lg`}></i>
         </button>
@@ -113,13 +114,13 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, theme, toggleThe
             </button>
 
             <button 
-              onClick={() => setIsMenuOpen(false)}
-              className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-all text-left group"
+              onClick={() => {setIsMenuOpen(false); onAdminLogin();}}
+              className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-left group"
             >
-              <div className="w-9 h-9 rounded-xl bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform">
-                <i className="fa-solid fa-star"></i>
+              <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 group-hover:scale-110 transition-transform">
+                <i className="fa-solid fa-lock"></i>
               </div>
-              {t.rate}
+              {t.admin}
             </button>
 
             <div className="my-2 border-t border-slate-100 dark:border-slate-800 mx-5"></div>
